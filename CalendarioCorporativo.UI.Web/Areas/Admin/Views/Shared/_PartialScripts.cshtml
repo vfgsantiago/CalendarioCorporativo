@@ -1,0 +1,97 @@
+﻿<script src="~/js/site.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<script src="~/lib/admin-lte/plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="~/lib/bootstrap-fileinput/js/locales/pt-br.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/lib/admin-lte/plugins/moment/moment.min.js"></script>
+<script src="~/lib/admin-lte/plugins/moment/moment-with-locales.min.js"></script>
+<script src="~/lib/admin-lte/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/lib/admin-lte/dist/js/adminlte.js"></script>
+<script src="~/lib/admin-lte/plugins/select2/js/select2.full.min.js"></script>
+<script src="~/lib/admin-lte/plugins/select2/js/select2.min.js"></script>
+<script src="~/lib/admin-lte/plugins/bootstrap-switch/js/bootstrap-switch.js"></script>
+<script src="~/lib/admin-lte/plugins/fullcalendar/main.min.js"></script>
+<script src="~/lib/admin-lte/plugins/fullcalendar/locales/pt-br.js"></script>
+<script src="~/lib/admin-lte/plugins/toastr/toastr.min.js"></script>
+<script src="~/lib/admin-lte/plugins/jquery-ui/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script>
+    $(function () {
+        $('a:not([target="_blank"]):not([href^="#"]):not([data-bs-toggle="modal"]):not(.js-no-loader)').on('click', function (e) {
+            $('.loader').show();
+        });
+
+        $('form').on('submit', function () {
+            if ($(this).valid()) {
+                $('.loader').show();
+            }
+        });
+
+        $(document).ajaxStart(function () {
+            $('.loader').show();
+        });
+
+        $(document).ajaxStop(function () {
+            $('.loader').hide();
+        });
+
+        $(document).on('hidden.bs.modal', function () {
+            $('.loader').hide();
+        });
+
+        $('.page-item,.nav-treeview .nav-item').click(function () {
+            $('.loader').show();
+        });
+
+        $('input').attr('autocomplete', 'off');
+        $('.select2').select2();
+
+        $('.telefone-celular').inputmask('(99) 9999-99999')
+        $('.cpf').inputmask('999.999.999-99')
+
+        $(window).scroll(function () {
+            if ($(this).scrollTop() != 0) {
+                $('.top-page').fadeIn();
+            } else {
+                $('.top-page').fadeOut();
+            }
+            var topo = $('#topNav');
+            var submenu = $('.navbar-submenu');
+            if ($(window).scrollTop() > 100) {
+                topo.addClass('navbar-opacity');
+            } else {
+                if ($(window).scrollTop() <= 100) {
+                    topo.removeClass('navbar-opacity');
+                }
+            }
+        });
+
+        $('.calendario').val("");
+
+        $('.numero').keydown(function (e) {
+            var key = e.charCode || e.keyCode || 0;
+            return (
+                key == 8 ||
+                key == 9 ||
+                key == 13 ||
+                key == 46 ||
+                key == 110 ||
+                key == 190 ||
+                (key >= 35 && key <= 40) ||
+                (key >= 48 && key <= 57) ||
+                (key >= 96 && key <= 105));
+        });
+
+        $('.top-page').click(function () {
+            $('body,html').animate({ scrollTop: 0 }, 800);
+        });
+
+        $(function () {
+            $('.popover').popover({
+                container: 'body'
+            })
+        });
+    });
+</script>

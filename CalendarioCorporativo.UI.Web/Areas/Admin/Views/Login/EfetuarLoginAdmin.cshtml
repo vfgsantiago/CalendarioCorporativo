@@ -1,0 +1,63 @@
+﻿@model LoginAdminViewMOD
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="login-box animate__animated animate__fadeInDown">
+    <div class="login-logo">
+        <div class="mt-2 fw-bold">
+            <span class="fas fa-calendar-check animate__animated animate__pulse animate__infinite"></span>
+            <span class="text-white">Administrador</span><br />
+            <small class="text-light">Calendário Corporativo</small>
+        </div>
+    </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <img src="logo.png"
+                 alt="Logo" class="img-fluid" />
+        </div>
+        <div class="login-card-body">
+            <form asp-controller="Login"
+                  asp-action="EfetuarLoginAdmin"
+                  asp-area="Admin"
+                  asp-route-returnurl="@ViewData["ReturnUrl"]"
+                  method="post">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Usuário</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input asp-for="Login" class="form-control" placeholder="Digite seu login" />
+                    </div>
+                    <span asp-validation-for="Login" class="text-danger small"></span>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Digite sua senha" />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+                <button type="submit" class="btn btn-login mt-2">
+                    Entrar
+                </button>
+            </form>
+        </div>
+        <div class="card-footer text-center">
+            <h6 class="text-orange mb-2">
+                <i class="fa fa-exclamation-circle"></i> Dúvidas?
+            </h6>
+            <span class="mb-2">
+                Primeiro acesso ou dificuldade no login?<br />
+                Contate o 
+                <b class="text-orange">suporte técnico</b>.
+            </span><br />
+            <a asp-action="Index" asp-controller="Home" asp-area="" class="text-decoration-none mt-2">
+                <span class="text-success fw-bold">
+                    <i class="fas fa-calendar-check"></i> Calendário Corporativo
+                </span>
+            </a>
+        </div>
+    </div>
+</div>

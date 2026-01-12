@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendário Corporativo</title>
+    <partial name="_PartialStyles" />
+    <link href="~/css/calendar.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body data-bs-theme="light">
+    <div class="app-wrapper">
+        <div class="loader" style="display: none;">
+            <span class="fa fa-spinner fa-pulse fa-3x fa-fw text-primary"></span>
+        </div>
+        <main class="app-main">
+            <div class="app-content">
+                <div class="container-fluid px-lg-4 px-0 m-0">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    <partial name="_PartialScripts" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

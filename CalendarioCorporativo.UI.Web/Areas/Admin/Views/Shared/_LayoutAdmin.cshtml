@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Calendário Corporativo</title>
+    <partial name="_PartialStyles" />
+    <link href="~/css/admin.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/admin-lte/plugins/jquery/jquery.min.js"></script>
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body app-loaded sidebar-collapse" data-bs-theme="light">
+    <partial name="_PartialToast" />
+    <div class="app-wrapper">
+        <div class="loader" style="display: none;">
+            <span class="fa fa-spinner fa-pulse fa-3x fa-fw text-primary"></span>
+        </div>
+        <partial name="_PartialHeader" />
+        <main class="app-main bg-light-gray">
+            <div class="app-content">
+                <div class="container-fluid p-0 m-0">
+                    <partial name="_PartialMensagem" />
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="top-page" id="scrollTop" style="display: none;">
+                <span class="fas fa-arrow-up text-dark opacity-50" data-toggle="tooltip" data-placement="left"></span>
+            </div>
+        </main>
+        <partial name="_PartialFooter" />
+    </div>
+    <partial name="_PartialScripts" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿@{
+    var nomeCompleto = User.FindFirst("NmUsuario")?.Value ?? "";
+    var nomes = nomeCompleto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    string primeiroNome = nomes.Length > 0 ? nomes[0] : "";
+    string ultimoNome = nomes.Length > 1 ? nomes[nomes.Length - 1] : "";
+    var nome = $"{primeiroNome} {ultimoNome}";
+}
+
+<style>
+    .header-user-info {
+        line-height: 1.5;
+    }
+        .header-user-info span {
+            font-size: 1.15rem;
+        }
+        .header-user-info small {
+            font-size: 0.75rem;
+        }
+</style>
+
+<nav class="app-header navbar navbar-expand bg-primary shadow-sm py-2 header">
+    <div class="container-fluid align-items-center justify-content-between px-4">
+        <div class="d-flex align-items-center">
+            <a asp-action="Index" asp-controller="Home" class="brand-link d-flex align-items-center text-decoration-none">
+                <img src="~/log.png" class="header-logo" alt="Logo">
+                <span class="h5 ms-3 pt-2 text-white fw-semibold d-none d-lg-flex">Calendário Corporativo - Administrador</span>
+                <span class="h5 ms-3 pt-2 text-white fw-semibold d-lg-none d-flex">
+                    <i class="fas fa-calendar-check me-1"></i>
+                    Administrador
+                </span>
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="header-links d-none d-lg-flex align-items-center gap-3 me-lg-4">
+                <a asp-action="Index" asp-controller="Evento" asp-area="Admin" class="header-pill">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Eventos</span>
+                </a>
+                <a asp-action="Index" asp-controller="Categoria" asp-area="Admin" class="header-pill">
+                    <i class="fas fa-bookmark"></i>
+                    <span>Categorias</span>
+                </a>
+            </div>
+            <img src="@Configuration.GetSection("UrlRepositorio").Value/@User.FindFirst("Avatar").Value"
+                 class="user-image rounded-circle shadow bg-white me-2"
+                 style="width:42px; height:42px; object-fit:cover;"
+                 alt="User Image">
+            <div class="d-none d-md-flex flex-column text-white me-3 header-user-info">
+                <span class="fw-semibold lh-1 pb-1">
+                    @nome.ToTitleCasePtBr()
+                </span>
+                <small class="opacity-75">
+                    @User.FindFirst("NoCentroCusto")?.Value.ToTitleCasePtBr()
+                </small>
+            </div>
+            <a asp-controller="Login" asp-action="Sair"
+               class="btn btn-red btn-sm fs-6 shadow px-3 py-1">
+                Logout <i class="ms-1 fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</nav>

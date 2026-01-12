@@ -1,0 +1,90 @@
+﻿@model CalendarioViewMOD
+@{
+    var query = Context.Request.Query;
+    var tipo = query["tipo"].ToString();
+    var mes = query["mes"].ToString();
+    var ano = query["ano"].ToString();
+    var data = query["data"].ToString();
+    var categorias = query["categorias"].ToString();
+    var categoriasSelecionadas =
+        Context.Request.Query["categorias"]
+               .ToString()
+               .Split(',', StringSplitOptions.RemoveEmptyEntries)
+               .ToList();
+    var centroCustoSelecionado = Context.Request.Query["cdCentroCusto"].ToString();
+}
+
+<div class="sidebar bg-white rounded-4 p-4 h-100 shadow-sm">
+    <div class="sidebar-header mb-4 border-bottom pb-3">
+        <img src="~/logo.png"
+             class="header-logo d-lg-none d-inline mb-3"
+             alt="Logo">
+        <div class="row align-items-center gy-3">
+            <div class="col-lg-8 col-12 d-flex align-items-center gap-3">
+                <img src="~/logo.png"
+                     class="header-logo d-none d-lg-inline"
+                     alt="Logo">
+                <div>
+                    <h2 class="mb-1 fw-semibold text-gray-dark">
+                        Calendário Corporativo
+                    </h2>
+                    <small class="text-muted d-block">
+                        Planejamento corporativo centralizado
+                    </small>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12 text-lg-end text-start">
+                <form asp-action="Index" asp-controller="Home" method="get" class="w-100">
+                    <input type="hidden" name="tipo" value="@tipo" />
+                    <input type="hidden" name="mes" value="@mes" />
+                    <input type="hidden" name="ano" value="@ano" />
+                    <input type="hidden" name="data" value="@data" />
+                    <input type="hidden" name="categorias" value="@categorias" />
+                    <div class="input-group input-group-sm shadow-sm">
+                        <span class="input-group-text bg-primary">
+                            <i class="fas fa-id-badge text-white"></i>
+                        </span>
+                        <div class="form-floating form-floating-sm bg-light">
+                            <select name="cdCentroCusto"
+                                    class="form-select shadow-sm bg-light"
+                                    onchange="this.form.submit()">
+                                <option value="">Todos os setores</option>
+                                @foreach (var centro in Model.CentroCustos)
+                                {
+                                    <option value="@centro.CdCentroCusto"
+                                            selected="@(centroCustoSelecionado == centro.CdCentroCusto.ToString())">
+                                        @centro.NoCentroCusto.ToTitleCasePtBr()
+                                    </option>
+                                }
+                            </select>
+                            <label class="text-muted">Filtrar por Setor</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="filters mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="filter-title">
+                <i class="fas fa-filter me-2"></i>Filtrar por Categorias de eventos
+            </span>
+        </div>
+        <div class="filter-group d-flex flex-wrap gap-2">
+            @foreach (var categoria in Model.Categorias)
+            {
+                var isChecked = !categoriasSelecionadas.Any() || categoriasSelecionadas.Contains(categoria.CdCategoria.ToString());
+                <label class="filter-chip">
+                    <input type="checkbox"
+                           class="filter-category d-none"
+                           value="@categoria.CdCategoria"
+                           @(isChecked ? "checked" : "") />
+                    <span class="badge filter-badge badge-soft @categoria.TxCor px-3 py-2">
+                        <i class="@categoria.TxIcone me-2"></i>
+                        @categoria.TxTitulo
+                    </span>
+                </label>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+﻿@model ErrorViewMOD
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="text-dark">
+    <h1>Erro.</h1>
+    <h2>Ocorreu um erro ao completar sua solicitação.</h2>
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <h6>Não foi possível acessar esta página</h6>
+        <p class="bg-danger rounded p-2 my-4">
+            <strong class="text-dark">
+                @Model.ErrorMessage
+            </strong>
+        </p>
+    }
+</div>
+<a href="/Home" class="btn btn-light" class="nav-link"><i class="fa fa-home pe-1"></i>Voltar ao inicio</a>

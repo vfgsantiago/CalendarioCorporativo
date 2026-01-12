@@ -1,0 +1,123 @@
+﻿@model EventoViewMOD
+@{
+    ViewData["Title"] = "Cadastrar Novo Evento";
+}
+
+<div class="container-fluid py-5 px-5">
+    <div class="bg-white rounded-4 border-0 shadow-sm px-5 pt-4 pb-2 mb-3">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <h3 class="text-gray-dark"><i class="fas fa-plus-circle me-2"></i>Novo Evento</h3>
+                <p class="text-gray">Preencha os campos abaixo para cadastrar o evento</p>
+            </div>
+        </div>
+    </div>
+    <form asp-action="Cadastrar" asp-controller="Evento" asp-area="Admin" method="post">
+        <input type="hidden" asp-for="Evento.CdCategoria" />
+        <div class="row mb-4">
+            <div class="col-8">
+                <div class="card shadow-sm rounded-4 border-0 h-100">
+                    <div class="card-body px-5 py-4">
+                        <div class="mb-4">
+                            <label asp-for="Evento.TxTitulo" class="form-label fw-semibold">Título</label>
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-white"><i class="fas fa-lightbulb"></i></span>
+                                <input asp-for="Evento.TxTitulo" class="form-control" maxlength="50" required placeholder="Insira o título do evento..." />
+                            </div>
+                            <span asp-validation-for="Evento.TxTitulo" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-1">
+                            <label asp-for="Evento.TxDescricao" class="form-label fw-semibold">Descrição</label>
+                            <textarea asp-for="Evento.TxDescricao" class="form-control shadow-sm" rows="3" maxlength="200" placeholder="Descreva o evento..." required></textarea>
+                            <span asp-validation-for="Evento.TxDescricao" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="bg-white rounded-4 px-5 pt-4 pb-2 h-100 shadow-sm">
+                    <div class="mb-4">
+                        <label asp-for="Evento.DtInicioEvento" class="form-label fw-semibold">Início do Evento</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white"><i class="fas fa-calendar"></i></span>
+                            <input asp-for="Evento.DtInicioEvento" type="date" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="Evento.DtInicioEvento" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-1">
+                        <label asp-for="Evento.DtFimEvento" class="form-label fw-semibold">Encerramento do Evento</label>
+                        <div class="input-group shadow-sm">
+                            <span class="input-group-text bg-white"><i class="fas fa-calendar-check"></i></span>
+                            <input asp-for="Evento.DtFimEvento" type="date" class="form-control" required />
+                        </div>
+                        <span asp-validation-for="Evento.DtFimEvento" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="bg-white rounded-4 px-5 pt-4 pb-2 shadow-sm">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold d-block mb-3">Categoria</label>
+                        <div class="row g-3 category-badge-list">
+                            @foreach (var categoria in ViewBag.Categorias)
+                            {
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="category-badge-card"
+                                         data-id="@categoria.CdCategoria"
+                                         data-icon="@categoria.TxIcone"
+                                         data-color="@categoria.TxCor"
+                                         data-title="@categoria.TxTitulo">
+                                        <span class="badge rounded-3 w-100 d-flex align-items-center gap-2 px-3 py-3 shadow-sm @categoria.TxCor">
+                                            <i class="@categoria.TxIcone fs-5"></i>
+                                            <span class="text-truncate fw-semibold" title="@categoria.TxTitulo">
+                                                @categoria.TxTitulo
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <span class="text-danger small d-none" id="erroCategoria">
+                            Selecione uma categoria.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+            <a asp-action="Index" class="btn btn-outline-gray btn-sm shadow-sm"><i class="fas fa-chevron-left me-1"></i>Voltar</a>
+            <button type="submit"
+                    id="btnCadastrar"
+                    class="btn bg-primary text-white btn-sm shadow-sm"
+                    disabled>
+                <i class="fas fa-save me-2"></i>Cadastrar Novo Evento
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        const $btnCadastrar = $('#btnCadastrar');
+        const $inputCategoria = $('#Evento_CdCategoria');
+        const $erroCategoria = $('#erroCategoria');
+
+        $btnCadastrar.prop('disabled', true);
+
+        $('.category-badge-card').on('click', function () {
+            $('.category-badge-card').removeClass('selected');
+            $(this).addClass('selected');
+            const cdCategoria = $(this).data('id');
+            $inputCategoria.val(cdCategoria);
+            $btnCadastrar.prop('disabled', false);
+            $erroCategoria.addClass('d-none');
+        });
+
+        $('form').on('submit', function (e) {
+            if (!$inputCategoria.val()) {
+                e.preventDefault();
+                $erroCategoria.removeClass('d-none');
+                $btnCadastrar.prop('disabled', true);
+            }
+        });
+    });
+</script>

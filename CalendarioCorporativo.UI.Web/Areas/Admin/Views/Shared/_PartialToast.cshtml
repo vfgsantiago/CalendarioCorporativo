@@ -1,0 +1,32 @@
+﻿@if (TempData["StatusMessageOk"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            toastr.success('@Html.Raw(TempData["StatusMessageOk"])')
+        });
+    </script>
+}
+@if (ViewData["StatusMessageError"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            toastr.error('@Html.Raw(ViewData["StatusMessageError"])')
+        });
+    </script>
+}
+@if (TempData["StatusMessageWarning"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            toastr.warning('@Html.Raw(TempData["StatusMessage"])')
+        });
+    </script>
+}
+@if (TempData["StatusMessageInfo"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            toastr.info('@Html.Raw(TempData["StatusMessage"])', 'Turtle Bay Resort', { timeOut: 77000 })
+        });
+    </script>
+}

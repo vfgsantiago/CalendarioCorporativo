@@ -1,0 +1,145 @@
+﻿@model CategoriaViewMOD
+@{
+    ViewData["Title"] = "Categorias de Eventos";
+}
+
+<div class="container-fluid px-5 pt-4 pb-3 mb-4">
+    <div class="row mb-3">
+        <div class="col-6 text-start">
+            <a asp-action="Index" asp-controller="Home" asp-area="Admin" class="btn btn-xs px-3 py-1 btn-outline-gray shadow-sm">
+                <i class="fas fa-home me-2"></i> Home
+            </a>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <div class="bg-white rounded-1 border px-3 py-1 shadow-sm d-flex align-items-center gap-3">
+                <i class="fas fa-id-badge text-green"></i>
+                <div class="text-start">
+                    <span class="fw-semibold text-gray">
+                        @User.FindFirst("NoCentroCusto")?.Value.ToTitleCasePtBr()
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-3 mb-3 px-4 pt-4 pb-3 shadow-sm">
+        <div class="row mb-2">
+            <div class="col-8 text-start">
+                <h4 class="text-gray-dark">
+                    <i class="fas fa-bookmark me-2"></i>Categorias de Eventos
+                </h4>
+                <p class="text-gray">Local para gestão de todas as categorias de eventos do seu setor</p>
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="col-4 text-end">
+                    <a asp-action="Cadastrar" asp-controller="Categoria" asp-area="Admin" class="btn bg-primary text-white shadow">
+                        <i class="fas fa-plus me-1"></i> Cadastrar Nova Categoria
+                    </a>
+                </div>
+            }
+        </div>
+        <form asp-action="Index" asp-controller="Categoria" asp-area="Admin" method="get" class="container-fluid mb-2">
+            <label for="filtro" class="form-label fw-semibold text-gray">Código ou título</label>
+            <div class="input-group search-input-group shadow-sm">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="fas fa-search text-muted"></i>
+                </span>
+                <input type="text" name="filtro" id="filtro"
+                       class="form-control border-start-1"
+                       placeholder="Buscar por código ou título"
+                       value="@ViewBag.Filtro">
+                <button class="btn btn-gray text-white px-4" type="submit">
+                    <i class="fas fa-search me-2"></i>Buscar
+                </button>
+                <a href="@Url.Action("Index")" class="btn btn-outline-gray px-3">
+                    <i class="fas fa-times me-2"></i>Limpar
+                </a>
+            </div>
+        </form>
+    </div>
+    <p class="pt-1 pb-0 text-gray">Total de categorias do seu setor: @Model.QtdTotalDeRegistros</p>
+    <div class="row g-4">
+        @if (Model.Lista != null && Model.Lista.Count > 0)
+        {
+            foreach (var categoria in Model.Lista)
+            {
+                var ativo = categoria.SnAtivo == "S";
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="card shadow-sm border rounded-4 h-100 hover-scale">
+                        <div class="card-body d-flex flex-column justify-content-between p-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="badge rounded-pill @categoria.TxCor d-flex align-items-center px-3 pt-2 pb-1 shadow-sm" style="max-width: 100%;">
+                                    <i class="@categoria.TxIcone h5 me-2 flex-shrink-0"></i>
+                                    <span class="text-white text-truncate h6" style="flex: 1 1 auto; min-width: 0;" title="@categoria.TxTitulo">@categoria.TxTitulo</span>
+                                </span>
+                            </div>
+                            <p class="card-text text-muted small text-truncate-2 mb-3" title="@categoria.TxDescricao">@categoria.TxDescricao</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge rounded-pill @(ativo ? "bg-success" : "bg-red") px-3 py-2 me-2 shadow-sm">
+                                        @(ativo ? "Ativo" : "Inativo")
+                                    </span>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input shadow-sm" type="checkbox"
+                                                   onchange="enviarAlteracao(@categoria.CdCategoria, this)"
+                                                   @(ativo ? "checked" : "") title="Alterar status" />
+                                        </div>
+                                    }
+                                </div>
+                                <div class="btn-group shadow-sm">
+                                    <a data-bs-toggle="modal" data-bs-target="#modalConsultar_@categoria.CdCategoria" class="btn btn-outline-gray btn-sm" title="Consultar"><i class="fas fa-search"></i></a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-action="EditarConteudo" asp-route-cdCategoria="@categoria.CdCategoria" class="btn btn-outline-gray btn-sm" title="Editar Conteúdo"><i class="fas fa-edit"></i></a>
+                                        <a asp-action="EditarMarcador" asp-route-cdCategoria="@categoria.CdCategoria" class="btn btn-outline-gray btn-sm" title="Editar Marcador"><i class="fas fa-certificate"></i></a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("_ModalConsultar", categoria)
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center text-muted py-4">
+                <i class="fas fa-info-circle me-2"></i>Nenhuma categoria encontrada.
+            </div>
+        }
+    </div>
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.PaginaAtual ? "active" : "")">
+                    <a class="page-link bg-primary text-white border-0" href="@Url.Action("Index", new { pagina = i, filtro = ViewBag.Filtro })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+<script>
+    function enviarAlteracao(cdCategoria, checkbox) {
+        $.ajax({
+            url: '@Url.Action("AlterarStatus", "Categoria")',
+            type: 'POST',
+            data: { cdCategoria: cdCategoria },
+            success: function () {
+                const badge = $(checkbox).closest('.d-flex').find('.badge').first();
+                if (checkbox.checked) {
+                    badge.removeClass('bg-red').addClass('bg-success').text('Ativo');
+                } else {
+                    badge.removeClass('bg-success').addClass('bg-red').text('Inativo');
+                }
+                toastr.success("Status alterado com sucesso!");
+            },
+            error: function () {
+                toastr.error('Erro ao alterar status!');
+                checkbox.checked = !checkbox.checked;
+            }
+        });
+    }
+</script>

@@ -1,0 +1,10 @@
+﻿@model EventoMOD
+
+<div class="event @Model.TxCor text-white"
+     data-category="@Model.CdCategoria"
+     data-bs-toggle="modal"
+     data-bs-target="#modalConsultar_@Model.CdEvento"
+     title="@Model.TxCategoria">
+    <i class="@Model.TxIcone me-1"></i>@Model.TxTitulo
+</div>
+@await Html.PartialAsync("_ModalConsultarEvento", Model)

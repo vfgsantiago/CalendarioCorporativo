@@ -1,0 +1,72 @@
+﻿@if (TempData["Modal-Sucesso"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            $('.modal-alert').modal('show');
+            setTimeout(function () { $('.modal-alert').modal('hide') }, 10000);
+        });
+    </script>
+    <div class="modal modal-alert">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content bg-green">
+                <div class="modal-header p-b-0" style="border-bottom:none">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar">
+                    </button>
+                </div>
+                <div class="modal-body p-b-2 p-t-0">
+                    <div class="modal-body text-light text-xs-center">
+                        <div class="row text-center">
+                            <div class="col-lg-12">
+                                <span class="fa-stack display-4">
+                                    <i class="fa fa-circle fa-stack-2x text-green-light"></i>
+                                    <i class="fa fa-thumbs-up fa-stack-1x text-green"></i>
+                                </span>
+                            </div>
+                            <div class="col-lg-12 text-xs-center pt-4">
+                                <h5 class="text-white">
+                                    @Html.Raw(TempData["Modal-Sucesso"])
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (TempData["Modal-Erro"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            $('.modal-alert').modal('show');
+            setTimeout(function () { $('.modal-alert').modal('hide') }, 10000);
+        });
+    </script>
+    <div class="modal modal-alert">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content bg-red">
+                <div class="modal-header p-b-0" style="border-bottom:none">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar">
+                    </button>
+                </div>
+                <div class="modal-body p-b-2 p-t-0">
+                    <div class="modal-body text-light text-xs-center">
+                        <div class="row text-center">
+                            <div class="col-lg-12">
+                                <span class="fa-stack display-4">
+                                    <i class="fa fa-circle fa-stack-2x text-yellow"></i>
+                                    <i class="fa fa-thumbs-down fa-stack-1x text-white"></i>
+                                </span>
+                            </div>
+                            <div class="col-lg-12 text-xs-center pt-4">
+                                <h5 class="text-white">
+                                    @Html.Raw(TempData["Modal-Erro"])
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

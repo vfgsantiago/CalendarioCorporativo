@@ -1,0 +1,200 @@
+﻿@model EventoViewMOD
+@{
+    ViewData["Title"] = "Eventos";
+}
+
+<div class="container-fluid px-5 pt-4 pb-3 mb-4">
+    <div class="row mb-3">
+        <div class="col-6 text-start">
+            <a asp-action="Index" asp-controller="Home" asp-area="Admin" class="btn btn-xs px-3 py-1 btn-outline-gray shadow-sm">
+                <i class="fas fa-home me-2"></i> Home
+            </a>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <div class="bg-white rounded-1 border px-3 py-1 shadow-sm d-flex align-items-center gap-3">
+                <i class="fas fa-id-badge text-green"></i>
+                <div class="text-start">
+                    <span class="fw-semibold text-gray">
+                        @User.FindFirst("NoCentroCusto")?.Value.ToTitleCasePtBr()
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-3 mb-3 px-3 pt-4 pb-3 shadow-sm">
+        <div class="row mb-2">
+            <div class="col-8 text-start px-4">
+                <h3 class="text-gray-dark">
+                    <i class="fas fa-lightbulb me-3"></i>Eventos
+                </h3>
+                <p class="text-gray">Local para gestão de todos os eventos do seu setor</p>
+            </div>
+            <div class="col-4 text-end px-4">
+                    <a asp-action="Cadastrar" asp-controller="Evento" asp-area="Admin" class="btn bg-primary text-white shadow">
+                    <i class="fas fa-plus me-1"></i> Cadastrar Novo Evento
+                </a>
+            </div>
+        </div>
+        <form asp-action="Index" asp-controller="Evento" asp-area="Admin" method="get" class="container-fluid mb-2">
+             <div class="row g-2">
+                  <div class="col-md-3 position-relative">
+                      <div class="input-group input-group-sm shadow-sm">
+                          <span class="input-group-text bg-white">
+                              <i class="fas fa-lightbulb"></i>
+                          </span>
+                          <div class="form-floating form-floating-sm flex-grow-1">
+                              <input type="text" name="txTitulo"
+                                     id="txTitulo"
+                                     class="form-control"
+                                     placeholder="Digite o título do evento..."
+                                     value="@(ViewBag.Titulo ?? "")">
+                              <label class="text-muted">Título</label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="input-group input-group-sm shadow-sm">
+                          <span class="input-group-text bg-white">
+                              <i class="fas fa-exclamation-triangle"></i>
+                          </span>
+                          <div class="form-floating form-floating-sm">
+                              <select name="cdCategoria" class="form-select">
+                                  <option value="">Todas</option>
+                                  @foreach (var categoria in ViewBag.ListaCategorias ?? Enumerable.Empty<CategoriaMOD>())
+                                  {
+                                      <option value="@categoria.CdCategoria"
+                                              selected="@(ViewBag.Categoria == categoria.CdCategoria)">
+                                          @categoria.TxTitulo
+                                      </option>
+                                  }
+                              </select>
+                              <label class="text-muted">Categoria</label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="input-group input-group-sm shadow-sm">
+                          <span class="input-group-text bg-white">
+                              <i class="fas fa-calendar"></i>
+                          </span>
+                          <div class="form-floating form-floating-sm">
+                              <input type="date" name="dtInicioPeriodo" class="form-control"
+                                     value="@ViewBag.DataInicio?.ToString("yyyy-MM-dd")" />
+                              <label class="text-muted">Início do Período</label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="input-group input-group-sm shadow-sm">
+                          <span class="input-group-text bg-white">
+                              <i class="fas fa-calendar-check"></i>
+                          </span>
+                          <div class="form-floating form-floating-sm">
+                              <input type="date" name="dtFimPeriodo" class="form-control"
+                                     value="@ViewBag.DataFim?.ToString("yyyy-MM-dd")" />
+                              <label class="text-muted">Fim do Período</label>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-2 mt-3 text-end">
+                      <div class="btn-group shadow-sm">
+                        <button class="btn btn-gray btn-sm" type="submit">Buscar
+                        </button>
+                        <a href="@Url.Action("Index","Evento", new { area = "Admin" })"
+                           class="btn btn-outline-gray btn-sm">Limpar
+                        </a>
+                     </div>
+                  </div>
+            </div>
+        </form>
+    </div>
+    <p class="pt-1 pb-0 text-gray">Total de eventos do seu setor: @Model.QtdTotalDeRegistros</p>
+    <div class="row g-4">
+        @if (Model.Lista != null && Model.Lista.Count > 0)
+        {
+            foreach (var evento in Model.Lista)
+            {
+                var ativo = evento.SnAtivo == "S";
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="card shadow-sm border rounded-4 h-100 hover-scale">
+                        <div class="card-body d-flex flex-column justify-content-between p-4">
+                            <h4>@evento.TxTitulo</h4>
+                            <p class="card-text text-muted small text-truncate-2" title="@evento.TxDescricao">@evento.TxDescricao</p>
+                            <div class="d-flex align-items-center my-2">
+                                <span class="badge rounded-pill @evento.TxCor d-flex align-items-center px-3 py-2 shadow-sm" style="max-width: 100%;">
+                                    <i class="@evento.TxIcone me-2 flex-shrink-0"></i>
+                                    <span class="text-white text-truncate" style="flex: 1 1 auto; min-width: 0;" title="@evento.TxCategoria">@evento.TxCategoria</span>
+                                </span>
+                            </div>
+                            <small class="text-muted d-block mb-3">
+                                <span class="text-gray fw-bold">Início:</span> @evento.DtInicioEvento.Value.ToString("dd, MMM yyyy")<br />
+                                <span class="text-gray fw-bold">Encerramento:</span> @evento.DtFimEvento.Value.ToString("dd, MMM yyyy")
+                            </small>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <span class="badge rounded-pill @(ativo ? "bg-success" : "bg-red") px-3 py-2 me-2 shadow-sm">
+                                        @(ativo ? "Ativo" : "Inativo")
+                                    </span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input shadow-sm" type="checkbox"
+                                               onchange="enviarAlteracao(@evento.CdEvento, this)"
+                                               @(ativo ? "checked" : "") title="Alterar status" />
+                                    </div>
+                                </div>
+                                <div class="btn-group shadow-sm">
+                                    <a data-bs-toggle="modal" data-bs-target="#modalConsultar_@evento.CdEvento" class="btn btn-outline-gray btn-sm" title="Consultar"><i class="fas fa-search"></i></a>
+                                    <a asp-action="EditarConteudo" asp-route-cdEvento="@evento.CdEvento" class="btn btn-outline-gray btn-sm" title="Editar Conteúdo"><i class="fas fa-edit"></i></a>
+                                    <a asp-action="EditarCategoria" asp-route-cdEvento="@evento.CdEvento" class="btn btn-outline-gray btn-sm" title="Editar Categoria"><i class="fas fa-bookmark"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @await Html.PartialAsync("_ModalConsultar", evento)
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12 text-center text-muted py-4">
+                <i class="fas fa-info-circle me-2"></i>Nenhuma evento encontrado.
+            </div>
+        }
+    </div>
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= Model.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.PaginaAtual ? "active" : "")">
+                    <a class="page-link bg-primary text-white border-0" 
+                    href="@Url.Action("Index", new { pagina = i, cdEvento = ViewBag.Evento,
+                        txTitulo = ViewBag.Titulo, 
+                        cdCategoria = ViewBag.Categoria, 
+                        dtInicioPeriodo = ViewBag.DataInicio,
+                        dtFimPeriodo = ViewBag.DataFim})">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+<script>
+    function enviarAlteracao(cdEvento, checkbox) {
+        $.ajax({
+            url: '@Url.Action("AlterarStatus", "Evento")',
+            type: 'POST',
+            data: { cdEvento: cdEvento },
+            success: function () {
+                const badge = $(checkbox).closest('.d-flex').find('.badge').first();
+                if (checkbox.checked) {
+                    badge.removeClass('bg-red').addClass('bg-success').text('Ativo');
+                } else {
+                    badge.removeClass('bg-success').addClass('bg-red').text('Inativo');
+                }
+                toastr.success("Status alterado com sucesso!");
+            },
+            error: function () {
+                toastr.error('Erro ao alterar status!');
+                checkbox.checked = !checkbox.checked;
+            }
+        });
+    }
+</script>

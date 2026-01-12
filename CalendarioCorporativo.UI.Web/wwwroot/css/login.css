@@ -1,0 +1,120 @@
+﻿/* =====================
+   LOGIN PAGE STYLE
+   Apenas para telas de login
+===================== */
+
+body.login-page {
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    padding: 70px 0;
+}
+
+/* Caixa principal */
+.login-box {
+    width: 100%;
+    max-width: 360px;
+}
+
+/* Título */
+.login-logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    color: var(--green-light);
+}
+
+    .login-logo span {
+        font-size: 1.5rem;
+    }
+
+/* Card */
+.card {
+    border-radius: 18px !important;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.25) !important;
+}
+
+/* Header com logo */
+.card-header {
+    background: var(--ice-light);
+    border-bottom: none;
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+}
+
+    .card-header img {
+        width: 120px;
+    }
+
+/* Corpo com glass effect */
+.login-card-body {
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.65);
+    padding: 1.5rem !important;
+    border-radius: 12px;
+}
+
+/* Inputs */
+.input-group-text {
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: none;
+    font-size: 1.2rem;
+}
+
+.form-control {
+    border-radius: 8px !important;
+    padding: .75rem;
+    border: 1px solid #dcdcdc;
+    transition: .2s ease;
+}
+
+    .form-control:focus {
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px rgba(0,153,93,0.25);
+    }
+
+/* Botão */
+.btn-login {
+    background: linear-gradient(135deg, var(--green-light), var(--green));
+    color: white !important;
+    font-weight: 700;
+    padding: .5rem;
+    border-radius: 50px !important;
+    transition: .25s;
+    width: 100%;
+}
+
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+/* Rodapé */
+.card-footer {
+    background: #fff;
+    border-top: none;
+    padding: 1.5rem !important;
+}
+
+    .card-footer span {
+        font-size: .93rem;
+        color: var(--gray-dark);
+    }
+
+/* Responsivo */
+@media (max-width: 576px) {
+    .login-box {
+        padding: 0 1rem;
+    }
+
+    .card-header img {
+        width: 120px;
+    }
+}

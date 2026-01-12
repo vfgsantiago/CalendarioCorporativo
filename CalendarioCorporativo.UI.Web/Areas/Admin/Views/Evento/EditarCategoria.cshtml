@@ -1,0 +1,108 @@
+﻿@model EventoViewMOD
+@{
+    ViewData["Title"] = "Editar Categoria do Evento";
+}
+
+<div class="container-fluid py-5 px-5">
+    <div class="row mb-3">
+        <div class="col-8">
+            <div class="bg-white rounded-4 border-0 shadow-sm px-5 pt-4 pb-1">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h3 class="text-gray-dark"><i class="fas fa-bookmark me-2"></i>Editar Categoria</h3>
+                        <p class="text-gray">Altere a categoria do evento.</p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <h5>
+                            <span class="badge rounded-pill bg-primary px-4 py-2 shadow-sm">
+                                @Model.Evento.TxTitulo
+                            </span>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="px-5 pt-2 pb-2 mb-3">
+                <h6 class="text-uppercase text-muted fw-semibold mb-3">Categoria Atual</h6>
+                <span class="badge rounded-3 w-100 d-flex align-items-center gap-2 px-3 py-3 shadow-sm @Model.Evento.TxCor">
+                    <i class="@Model.Evento.TxIcone fs-5"></i>
+                    <span class="text-truncate fw-semibold fs-5" title="@Model.Evento.TxCategoria">
+                        @Model.Evento.TxCategoria
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <form asp-action="EditarCategoria" asp-controller="Evento" asp-area="Admin" method="post">
+        <input type="hidden" asp-for="Evento.CdEvento" />
+        <input type="hidden" asp-for="Evento.CdCategoria" />
+        <div class="row g-4 mb-4">
+            <div class="col-12 mt-3">
+                <div class="bg-white rounded-4 px-5 pt-4 pb-2 shadow-sm">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold d-block">Categoria</label>
+                        <p class="text-gray mb-3">Selecione a nova categoria do evento.</p>
+                        <div class="row g-3 category-badge-list">
+                            @foreach (var categoria in ViewBag.Categorias)
+                            {
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="category-badge-card"
+                                         data-id="@categoria.CdCategoria"
+                                         data-icon="@categoria.TxIcone"
+                                         data-color="@categoria.TxCor"
+                                         data-title="@categoria.TxTitulo">
+                                        <span class="badge rounded-3 w-100 d-flex align-items-center gap-2 px-3 py-3 shadow-sm @categoria.TxCor">
+                                            <i class="@categoria.TxIcone fs-5"></i>
+                                            <span class="text-truncate fw-semibold" title="@categoria.TxTitulo">
+                                                @categoria.TxTitulo
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <span class="text-danger small d-none" id="erroCategoria">
+                            Selecione uma categoria.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-outline-gray btn-sm shadow-sm"><i class="fas fa-chevron-left me-1"></i>Voltar</a>
+            <button type="submit"
+                    id="btnSalvar"
+                    class="btn bg-primary text-white btn-sm shadow-sm"
+                    disabled>
+                <i class="fas fa-save me-2"></i>Salvar Alterações
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        const $btnSalvar = $('#btnSalvar');
+        const $inputCategoria = $('#Evento_CdCategoria');
+        const $erroCategoria = $('#erroCategoria');
+
+        $btnSalvar.prop('disabled', true);
+
+        $('.category-badge-card').on('click', function () {
+            $('.category-badge-card').removeClass('selected');
+            $(this).addClass('selected');
+            const cdCategoria = $(this).data('id');
+            $inputCategoria.val(cdCategoria);
+            $btnSalvar.prop('disabled', false);
+            $erroCategoria.addClass('d-none');
+        });
+
+        $('form').on('submit', function (e) {
+            if (!$inputCategoria.val()) {
+                e.preventDefault();
+                $erroCategoria.removeClass('d-none');
+                $btnSalvar.prop('disabled', true);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,74 @@
+﻿@model CategoriaViewMOD
+@{
+    ViewData["Title"] = "Editar Conteúdo da Categoria";
+}
+
+<div class="container-fluid py-5 px-5">
+    <div class="bg-white rounded-4 border-0 shadow-sm px-5 pt-4 pb-2 mb-3">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <h3 class="text-gray-dark"><i class="fas fa-edit me-2"></i>Editar Conteúdo</h3>
+                <p class="text-muted">Atualize o título e a descrição da categoria. Veja o preview à direita em tempo real.</p>
+            </div>
+            <div class="col-6 text-end">
+                <h5>
+                    <span class="badge rounded-pill bg-primary px-4 py-2 shadow-sm">
+                        @Model.Categoria.TxTitulo
+                    </span>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <form asp-action="EditarConteudo" asp-controller="Categoria" asp-area="Admin" method="post">
+        <input type="hidden" asp-for="Categoria.CdCategoria" />
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm rounded-4 border-0">
+                    <div class="card-body px-5 py-4">
+                        <div class="mb-4">
+                            <label asp-for="Categoria.TxTitulo" class="form-label fw-semibold">Título</label>
+                            <div class="input-group shadow-sm">
+                                <span class="input-group-text bg-white"><i class="@Model.Categoria.TxIcone"></i></span>
+                                <input asp-for="Categoria.TxTitulo" class="form-control" maxlength="50" required placeholder="Ex: Reunião, Feriado, Evento Acadêmico" />
+                            </div>
+                            <span asp-validation-for="Categoria.TxTitulo" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="Categoria.TxDescricao" class="form-label fw-semibold">Descrição</label>
+                            <textarea asp-for="Categoria.TxDescricao" class="form-control shadow-sm" rows="3" maxlength="200" placeholder="Descreva o propósito desta categoria" required></textarea>
+                            <span asp-validation-for="Categoria.TxDescricao" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 px-3 pt-4 pb-2">
+                <h6 class="text-uppercase text-muted fw-semibold mb-3">Preview no Calendário</h6>
+                <div id="previewCategoria" class="calendar-preview shadow @Model.Categoria.TxCor">
+                    <div class="preview-header">
+                        <i id="previewIcone" class="@Model.Categoria.TxIcone"></i>
+                        <span id="previewTitulo">@Model.Categoria.TxTitulo</span>
+                    </div>
+                    <div id="previewDescricao" class="preview-subtitle">@Model.Categoria.TxDescricao</div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <a asp-action="Index" class="btn btn-outline-gray btn-sm shadow-sm"><i class="fas fa-chevron-left me-1"></i>Voltar</a>
+            <button type="submit" class="btn bg-primary text-white btn-sm shadow-sm"><i class="fas fa-save me-2"></i>Salvar Alterações</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(function () {
+        const atualizarPreview = () => {
+            const titulo = $('#Categoria_TxTitulo').val() || 'Título da Categoria';
+            const descricao = $('#Categoria_TxDescricao').val() || 'Descrição da Categoria';
+            $('#previewTitulo').text(titulo).attr('title', titulo);
+            $('#previewDescricao').text(descricao).attr('title', descricao);
+        };
+
+        $('#Categoria_TxTitulo, #Categoria_TxDescricao').on('keyup', atualizarPreview);
+        atualizarPreview();
+    });
+</script>

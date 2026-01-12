@@ -1,0 +1,97 @@
+﻿@model EventoMOD
+
+<div class="modal fade" id="modalConsultar_@Model.CdEvento" tabindex="-1" aria-labelledby="modalConsultar_@Model.CdEvento" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg">
+        <div class="modal-content border-0 rounded-3 shadow">
+            <div class="modal-header text-white bg-primary">
+                <h5 class="modal-title mx-4" id="modalConsultar_@Model.CdEvento">
+                    <i class="fas fa-file-alt me-3"></i>Detalhes do Evento
+                </h5>
+            </div>
+            <div class="modal-body mx-4 text-start">
+                <div class="mb-4">
+                    <h6 class="text-green mb-3"><i class="fas fa-clipboard-list me-2"></i>Evento</h6>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <span class="text-gray">Título:</span><br />
+                            <span class="h5 text-gray-dark">@Model.TxTitulo</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center justify-content-center align-content-center mt-2 mb-1">
+                                <span class="badge rounded-pill @Model.TxCor d-flex align-items-center px-3 pt-2 pb-1 flex-grow-1 shadow-sm">
+                                    <i class="@Model.TxIcone h6 me-2"></i>
+                                    <span class="text-white text-truncate h6" style="max-width: calc(100% - 30px);">@Model.TxCategoria</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-gray-dark">
+                            <span class="text-gray">Descrição:</span><br />
+                            @Model.TxDescricao
+                        </div>
+                        <div class="col-md-6 text-gray-dark">
+                            <span class="text-gray">Data de início:</span><br />
+                            @Model.DtInicioEvento.Value.ToString("dd, MMMM yyyy")
+                        </div>
+                        <div class="col-md-6 text-gray-dark">
+                            <span class="text-gray">Data de Encerramento:</span><br />
+                            @Model.DtFimEvento.Value.ToString("dd, MMMM yyyy")
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-4">
+                    <h6 class="text-green mb-3"><i class="fas fa-list me-2"></i>Informações</h6>
+                    <div class="row g-3">
+                        @if (Model.DtAlteracao != null)
+                        {
+                            <div class="col-md-6 text-gray-dark">
+                                <span class="text-gray">Data do cadastro:</span><br />
+                                @Model.DtCadastro.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                            <div class="col-md-6 text-gray-dark">
+                                <span class="text-gray">Data da última alteração:</span><br />
+                                @Model.DtAlteracao.Value.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                            <div class="col-md-6 text-gray-dark">
+                                <span class="text-gray">Responsável cadastro:</span><br />
+                                @Model.NoUsuarioCadastrou.ToTitleCasePtBr()
+                            </div>
+                            <div class="col-md-6 text-gray-dark">
+                                <span class="text-gray">Responsável última alteração:</span><br />
+                                @Model.NoUsuarioAlterou.ToTitleCasePtBr()
+                            </div>
+                            <div class="col-md-6 text-gray-dark">
+                                <span class="text-gray">Setor/Unidade:</span><br />
+                                @Model.NoCentroCustoUsuarioCadastrou.ToTitleCasePtBr() (@Model.NoUnidadeUsuarioCadastrou.ToTitleCasePtBr())
+                            </div>
+                            <div class="col-md-6 text-gray-dark">
+                                <span class="text-gray">Setor/Unidade:</span><br />
+                                @Model.NoCentroCustoUsuarioAlterou.ToTitleCasePtBr() (@Model.NoUnidadeUsuarioAlterou.ToTitleCasePtBr())
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-12 text-gray">
+                                <strong class="text-gray-dark">Data do cadastro:</strong><br />
+                                @Model.DtCadastro.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                            <div class="col-md-12 text-gray">
+                                <strong class="text-gray-dark">Responsável cadastro:</strong><br />
+                                @Model.NoUsuarioCadastrou.ToTitleCasePtBr()
+                            </div>
+                            <div class="col-md-12 text-gray">
+                                <strong class="text-gray-dark">Setor/Unidade:</strong><br />
+                                @Model.NoCentroCustoUsuarioCadastrou.ToTitleCasePtBr() (@Model.NoUnidadeUsuarioCadastrou.ToTitleCasePtBr())
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-gray px-4 py-1" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

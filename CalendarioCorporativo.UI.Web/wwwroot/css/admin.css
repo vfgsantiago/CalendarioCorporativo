@@ -1,0 +1,164 @@
+﻿/* Ajuste global */
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: #f7f9fa;
+}
+
+.content-wrapper {
+    margin-left: 240px;
+    padding: 25px 35px;
+    min-height: calc(100vh - 120px);
+}
+
+/* HEADER */
+.header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    width: 3.5em;
+    height: auto;
+    margin-top: 2px;
+}
+
+.header .h4 {
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.header-user {
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+.user-image {
+    width: 36px;
+    height: 36px;
+    border: 2px solid white;
+}
+
+/* FOOTER */
+.app-footer {
+    background: var(--bs-primary);
+    color: white;
+    font-size: 0.9rem;
+}
+
+    .app-footer h5 {
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    .app-footer small {
+        opacity: 0.85;
+    }
+
+/* ===========================
+   CARDS DE INDICADORES
+=========================== */
+.stat-card {
+    border-radius: 10px;
+    padding: 1.5rem 1rem;
+    background-color: #ffffff;
+    color: #212529;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: default;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .stat-card h6 {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-card h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .stat-card .icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Cores por status */
+    .stat-card.primary {
+        color: #0d6efd;
+    }
+
+    .stat-card.warning {
+        color: #ffc107;
+    }
+
+    .stat-card.success {
+        color: #198754;
+    }
+
+    .stat-card.danger {
+        color: #dc3545;
+    }
+
+/* ===========================
+   LISTA DE ACIDENTES
+=========================== */
+.list-group-item {
+    border: 0;
+    padding: 0.75rem 1.25rem;
+    transition: background 0.15s;
+}
+
+    .list-group-item:hover {
+        background: rgba(0,0,0,0.03);
+    }
+
+/* ===========================
+   CARDS DE CONFIGURAÇÃO / ACESSOS RÁPIDOS
+=========================== */
+.config-card {
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background-color: #ffffff;
+}
+
+    .config-card i {
+        color: var(--green-dark);
+    }
+
+    .config-card h6 {
+        font-size: 0.9rem;
+        margin-top: 0.35rem;
+        font-weight: 600;
+    }
+
+    .config-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        background-color: var(--green-light);
+        color: #004e4c;
+    }
+
+        .config-card:hover i {
+            color: #004e4c;
+        }
+
+.search-input-group .form-control,
+.search-input-group .input-group-text,
+.search-input-group .btn {
+    height: 46px !important;
+    display: flex;
+    align-items: center;
+}

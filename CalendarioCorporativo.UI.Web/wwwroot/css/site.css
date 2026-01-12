@@ -1,0 +1,61 @@
+:root {
+    --primary-green: #00995d;
+    --light-green: #b1d34b;
+    --dark-green: #004e4c;
+    --light-gray: #f2f2f2;
+    --dark-gray: #999999;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.card-header .fa {
+    transition: .3s transform ease-in-out;
+}
+
+.card-header .collapsed .fa {
+    transform: rotate(90deg);
+}
+
+.top-page {
+    display: none;
+    font-size: 2.4rem;
+    right: 10px;
+    bottom: 0px;
+    text-align: center;
+    position: fixed;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.form-label {
+    font-weight: 900;
+}
+
+.bg-light-gray {
+    background-color: var(--light-gray);
+}
+
+.bg-red {
+}

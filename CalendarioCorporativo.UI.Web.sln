@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36804.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Telas", "Telas", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Banco", "Banco", "{811FC9B1-DC0F-4290-B544-0994BA765DD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Armazenamento de Dados", "Armazenamento de Dados", "{2707FB50-E36B-4A60-B671-A98B9117F7F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarioCorporativo.Model", "CalendarioCorporativo.Model\CalendarioCorporativo.Model.csproj", "{7839865C-4464-44B7-8A59-7F12E60CE177}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarioCorporativo.Data", "CalendarioCorporativo.Data\CalendarioCorporativo.Data.csproj", "{61C111B3-EEC1-4279-827E-F40DD585F35E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarioCorporativo.Repository", "CalendarioCorporativo.Repository\CalendarioCorporativo.Repository.csproj", "{6B8F170F-0703-4502-B87A-641CE641E909}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarioCorporativo.UI.Web", "CalendarioCorporativo.UI.Web\CalendarioCorporativo.UI.Web.csproj", "{D33A0C8B-465A-45D4-82A6-3554556CA630}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7839865C-4464-44B7-8A59-7F12E60CE177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7839865C-4464-44B7-8A59-7F12E60CE177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7839865C-4464-44B7-8A59-7F12E60CE177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7839865C-4464-44B7-8A59-7F12E60CE177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C111B3-EEC1-4279-827E-F40DD585F35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C111B3-EEC1-4279-827E-F40DD585F35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C111B3-EEC1-4279-827E-F40DD585F35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C111B3-EEC1-4279-827E-F40DD585F35E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B8F170F-0703-4502-B87A-641CE641E909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B8F170F-0703-4502-B87A-641CE641E909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B8F170F-0703-4502-B87A-641CE641E909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B8F170F-0703-4502-B87A-641CE641E909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D33A0C8B-465A-45D4-82A6-3554556CA630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D33A0C8B-465A-45D4-82A6-3554556CA630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D33A0C8B-465A-45D4-82A6-3554556CA630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D33A0C8B-465A-45D4-82A6-3554556CA630}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7839865C-4464-44B7-8A59-7F12E60CE177} = {2707FB50-E36B-4A60-B671-A98B9117F7F1}
+		{61C111B3-EEC1-4279-827E-F40DD585F35E} = {811FC9B1-DC0F-4290-B544-0994BA765DD8}
+		{6B8F170F-0703-4502-B87A-641CE641E909} = {811FC9B1-DC0F-4290-B544-0994BA765DD8}
+		{D33A0C8B-465A-45D4-82A6-3554556CA630} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4BE942CC-3DF9-49B8-A4DA-8B41B8CE1698}
+	EndGlobalSection
+EndGlobal

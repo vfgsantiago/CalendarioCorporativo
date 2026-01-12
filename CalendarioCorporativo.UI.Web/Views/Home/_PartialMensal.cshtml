@@ -1,0 +1,40 @@
+﻿@model CalendarioViewMOD
+
+@if (!Model.DiasDoMes.Any())
+{
+    @await Html.PartialAsync("_PartialVazio")
+    return;
+}
+<div class="calendar-grid">
+    @foreach (var dia in Model.DiasDoMes)
+    {
+        if (dia.Data == null)
+        {
+            <div class="day empty"></div>
+            continue;
+        }
+        var hoje = dia.Data.Value.Date == DateTime.Today;
+        var fimDeSemana = dia.Data.Value.DayOfWeek == DayOfWeek.Saturday ||
+        dia.Data.Value.DayOfWeek == DayOfWeek.Sunday;
+        <div class="day @(hoje ? "day-highlight" : "") @(fimDeSemana ? "day-weekend" : "")"
+             onclick="goToDay('@dia.Data.Value.ToString("yyyy-MM-dd")')">
+            <div class="day-header">
+                <span class="day-number @(hoje ? "text-green" : "")">
+                    @dia.Data.Value.Day
+                </span>
+                <span class="day-label d-none d-lg-inline">
+                    @dia.Data.Value.ToString("ddd")
+                </span>
+                <span class="day-label d-lg-none d-inline">
+                    @dia.Data.Value.ToString("dddd")
+                </span>
+            </div>
+            <div class="events">
+                @foreach (var evento in dia.Eventos)
+                {
+                    @await Html.PartialAsync("_PartialEvento", evento)
+                }
+            </div>
+        </div>
+    }
+</div>

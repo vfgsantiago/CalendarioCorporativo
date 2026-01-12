@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CalendarioCorporativo.Data\CalendarioCorporativo.Data.csproj" />
+    <ProjectReference Include="..\CalendarioCorporativo.Model\CalendarioCorporativo.Model.csproj" />
+    <ProjectReference Include="..\CalendarioCorporativo.Repository\CalendarioCorporativo.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

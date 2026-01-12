@@ -1,0 +1,206 @@
+﻿@model CalendarioViewMOD
+
+<div class="container-fluid px-4 pt-4 pb-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="app-shell row">
+                <div class="col-12 mb-3">
+                    @await Html.PartialAsync("_PartialHeader", Model)
+                </div>
+                <div class="col-12 mb-3">
+                    <div id="calendarFullscreenWrapper" class="calendar-fullscreen-wrapper">
+                        <main class="calendar-shell py-3 px-4 calendar-transition">
+                            @await Html.PartialAsync("_PartialTopo", Model)
+                            @switch (Model.Tipo)
+                            {
+                                case CalendarioViewTipo.Mensal:
+                                    @await Html.PartialAsync("_PartialMensal", Model)
+                                    break;
+                                case CalendarioViewTipo.Semanal:
+                                    @await Html.PartialAsync("_PartialSemanal", Model)
+                                    break;
+                                case CalendarioViewTipo.Diaria:
+                                    @await Html.PartialAsync("_PartialDiaria", Model)
+                                    break;
+                            }
+                        </main>
+                    </div>
+                </div>
+                <div class="col-12 mb-4">
+                    @await Html.PartialAsync("_PartialExportar", Model)
+                </div>
+                <div class="col-12">
+                    @await Html.PartialAsync("_PartialFooter", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function changeView(view) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("tipo", view);
+            if (view === "Semanal") {
+                const today = new Date();
+                const dayOfWeek = today.getDay();
+                const monday = new Date(today);
+                monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
+                url.searchParams.set("data", monday.toISOString().split("T")[0]);
+            } else {
+                url.searchParams.delete("data");
+            }
+            window.location.href = url.toString();
+        }
+
+        function changeMonth(delta) {
+            const url = new URL(window.location.href);
+            let mes = parseInt(url.searchParams.get("mes") || "@Model.Mes");
+            let ano = parseInt(url.searchParams.get("ano") || "@Model.Ano");
+
+            mes += delta;
+            if (mes < 1) { mes = 12; ano--; }
+            if (mes > 12) { mes = 1; ano++; }
+
+            url.searchParams.set("mes", mes);
+            url.searchParams.set("ano", ano);
+            url.searchParams.delete("data");
+            window.location.href = url.toString();
+        }
+
+        function goToDay(date) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("tipo", "Diaria");
+            url.searchParams.set("data", date);
+            window.location.href = url.toString();
+        }
+
+        function changeWeek(delta) {
+            const url = new URL(window.location.href);
+            const base = new Date(url.searchParams.get("data") || new Date());
+            base.setDate(base.getDate() + delta * 7);
+            url.searchParams.set("tipo", "Semanal");
+            url.searchParams.set("data", base.toISOString().split("T")[0]);
+            window.location.href = url.toString();
+        }
+
+        function changeDay(delta) {
+            const url = new URL(window.location.href);
+            const dataParam = url.searchParams.get("data");
+            const base = dataParam ? new Date(dataParam) : new Date();
+            base.setDate(base.getDate() + delta);
+            const formattedDate = base.toISOString().split("T")[0];
+            url.searchParams.set("tipo", "Diaria");
+            url.searchParams.set("data", formattedDate);
+            window.location.href = url.toString();
+        }
+
+        function goToToday() {
+            const today = new Date();
+            const formattedDate = today.toISOString().split("T")[0];
+            const url = new URL(window.location.href);
+            url.searchParams.set("tipo", "Diaria");
+            url.searchParams.set("data", formattedDate);
+            window.location.href = url.toString();
+        }
+
+        $(function () {
+            $('.category-badge-card').on('click', function () {
+                $('.category-badge-card').removeClass('selected');
+                $(this).addClass('selected');
+                const cdCategoria = $(this).data('id');
+                $('#Evento_CdCategoria').val(cdCategoria);
+                $('#erroCategoria').addClass('d-none');
+            });
+        });
+
+        function toggleCalendarFullscreen() {
+            const wrapper = document.getElementById("calendarFullscreenWrapper");
+            const button = event.currentTarget;
+            const icon = button.querySelector("i");
+            const isFullscreen = wrapper.classList.toggle("fullscreen");
+            document.body.classList.toggle("overflow-hidden", isFullscreen);
+            localStorage.setItem("calendarFullscreen", isFullscreen ? "1" : "0");
+            icon.classList.toggle("fa-expand", !isFullscreen);
+            icon.classList.toggle("fa-compress", isFullscreen);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const wrapper = document.getElementById("calendarFullscreenWrapper");
+            const button = document.querySelector("[onclick='toggleCalendarFullscreen()']");
+            const icon = button?.querySelector("i");
+
+            if (localStorage.getItem("calendarFullscreen") === "1") {
+                wrapper.classList.add("fullscreen");
+                document.body.classList.add("overflow-hidden");
+                if (icon) {
+                    icon.classList.remove("fa-expand");
+                    icon.classList.add("fa-compress");
+                }
+            }
+        });
+
+         $(document).on('change', '.filter-category', function () {
+            const url = new URL(window.location.href);
+
+            const selecionadas = $('.filter-category:checked')
+                .map(function () { return this.value; })
+                .get();
+            if (selecionadas.length > 0) {
+                url.searchParams.set('categorias', selecionadas.join(','));
+            } else {
+                url.searchParams.delete('categorias');
+            }
+
+            const centro = $('select[name="cdCentroCusto"]').val();
+            if (centro) {
+                url.searchParams.set('cdCentroCusto', centro);
+            } else {
+                url.searchParams.delete('cdCentroCusto');
+            }
+
+            window.location.href = url.toString();
+        });
+
+        $('#btnExportar').on('click', function () {
+            $('.loader').show();
+
+            const params = {
+                ano: '@Model.Ano',
+                mes: '@Model.Mes',
+                tipo: '@Model.Tipo',
+                data: '@Context.Request.Query["data"]',
+                categorias: '@Context.Request.Query["categorias"]',
+                cdCentroCusto: '@Context.Request.Query["cdCentroCusto"]'
+            };
+
+            $.ajax({
+                url: '@Url.Action("ExportarCalendarioIcs", "Home")',
+                method: 'GET',
+                data: params,
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (blob) {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'calendario-corporativo.ics';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+
+                    toastr.success('Calendário com filtros exportado com sucesso');
+                },
+                error: function () {
+                    toastr.error('Erro ao exportar calendário');
+                },
+                complete: function () {
+                    $('.loader').hide();
+                }
+            });
+        });
+    </script>
+}
